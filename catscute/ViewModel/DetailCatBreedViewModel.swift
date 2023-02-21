@@ -10,13 +10,9 @@ import SwiftUI
 @MainActor class DetailCatBreedViewModel: ObservableObject {
     private let catService = ApiService()
     
-    @Published private(set) var images: [CatImage] = []
-    @Published private(set) var breedName: String = ""
+    @Published private(set) var images: [CatImage] = []    
     
     func loadImages(for breedId: String) async throws {
-        let breeds = try await catService.fetchBreeds().filter { $0.id == breedId }
-        guard let breed = breeds.first else { return }
-        breedName = breed.name ?? ""
         images = try await catService.fetchImages(for: breedId)
     }
 }
