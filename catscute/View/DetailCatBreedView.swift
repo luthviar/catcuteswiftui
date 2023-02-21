@@ -11,23 +11,37 @@ struct DetailCatBreedView: View {
     let breedId: String
     @StateObject private var viewModel = DetailCatBreedViewModel()
     
+    var arrayImageUrl: [CatImage] {
+        get {
+            return viewModel.images
+        }
+    }
+    
     var body: some View {
-        List(viewModel.images) { image in
-            AsyncImage(url: URL(string: image.url ?? "")) { phase in
-                switch phase {
-                case .empty:
-                    ProgressView()
-                case .success(let image):
-                    image.resizable().scaledToFit()
-                case .failure:
-                    Image(systemName: "exclamationmark.icloud.fill")
-                @unknown default:
-                    fatalError()
+        VStack {
+            ScrollView {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    LazyHStack(spacing: 20) {
+                        ForEach(viewModel.images.prefix(10), id: \.id) { image in
+                            AsyncImage(url: URL(string: image.url ?? "")) { phase in
+                                switch phase {
+                                case .empty:
+                                    ProgressView()
+                                case .success(let image):
+                                    image.resizable().scaledToFit()
+                                case .failure:
+                                    Image(systemName: "exclamationmark.icloud.fill")
+                                @unknown default:
+                                    fatalError()
+                                }
+                            }
+                            .frame(width: 200, height: 200)
+                        }
+                    }
+                    .padding(.horizontal)
                 }
             }
-            .frame(height: 200)
         }
-        .navigationTitle(viewModel.breedName)
         .task {
             try? await viewModel.loadImages(for: breedId)
         }

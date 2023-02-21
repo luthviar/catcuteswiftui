@@ -7,7 +7,7 @@
 
 import ObjectMapper
 
-struct CatImage: Identifiable, Mappable {
+struct CatImage: Identifiable, Mappable, Hashable {
     var id: String?
     var url: String?
     
