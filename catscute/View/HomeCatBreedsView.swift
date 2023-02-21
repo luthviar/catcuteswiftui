@@ -14,7 +14,7 @@ struct HomeCatBreedsView: View {
         NavigationView {
             List(viewModel.breeds) { breed in
                 NavigationLink(
-                    destination: DetailCatBreedView(breedId: breed.id ?? "", breedName: breed.name ?? "")
+                    destination: DetailCatBreedView(breed: breed)
                 ) {
                     HStack {
                         AsyncImage(url: URL(string: breed.imageUrl ?? "")) { phase in
@@ -22,8 +22,8 @@ struct HomeCatBreedsView: View {
                             case .empty:
                                 ProgressView()
                                     .frame(
-                                        width: 70,
-                                        height: 70
+                                        width: 80,
+                                        height: 80
                                     )
                                     .cornerRadius(8)
                                     .scaledToFit()
@@ -32,8 +32,8 @@ struct HomeCatBreedsView: View {
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
                                     .frame(
-                                        width: 70,
-                                        height: 70
+                                        width: 80,
+                                        height: 80
                                     )
                                     .background(Color.black)
                                     .cornerRadius(20)
@@ -43,8 +43,8 @@ struct HomeCatBreedsView: View {
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
                                     .frame(
-                                        width: 70,
-                                        height: 70
+                                        width: 80,
+                                        height: 80
                                     )
                                     .background(Color.black)
                                     .cornerRadius(20)
@@ -55,7 +55,7 @@ struct HomeCatBreedsView: View {
                         }
                         VStack(alignment: .leading, spacing: 8.0) {
                             Text(breed.name ?? "")
-                                .font(.system(size: 20, weight: .bold))
+                                .font(.system(size: 25, weight: .bold))
                             
                             Text(breed.description ?? "")
                                 .lineLimit(2)
@@ -64,13 +64,22 @@ struct HomeCatBreedsView: View {
                         }
                     }
                 }
-                
             }
             .navigationTitle("Cat Breeds")
+            .navigationBarItems(
+                trailing:
+                    NavigationLink(destination: AboutView()) {
+                        HStack {
+                            Text("About Me")
+                            Image(systemName: "info.circle")
+                        }
+                    }
+            )
         }
         .task {
             try? await viewModel.loadBreeds()
         }
+        
     }
 }
 

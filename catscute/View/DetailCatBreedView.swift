@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct DetailCatBreedView: View {
-    let breedId: String
-    let breedName: String
+    let breed: CatBreed
     
     @StateObject private var viewModel = DetailCatBreedViewModel()
     
@@ -57,19 +56,51 @@ struct DetailCatBreedView: View {
                             }
                         }
                     }
+                    .frame(minHeight: heightImageCarousel)
                 }
+                .padding(.leading, 10)
+                Text("you can tap the image above to view more detail and zoom it")
+                    .font(.footnote)
+                    .foregroundColor(Color.gray)
+                    .padding(.bottom, 10)
                 
+                Text(breed.description ?? "")
+                    .padding()
+                
+                Divider()
+                
+                Text(breed.temperament ?? "")
+                    .font(.title3)
+                    .bold()
+                    .padding()
+                    .multilineTextAlignment(.center)
+                
+                Divider()
+                
+                VStack(alignment: .center, spacing: 5) {
+                    Text("Adaptability: \(breed.adaptability ?? 0)")
+                    Text("Affection Level: \(breed.affectionLevel ?? 0)")
+                    Text("Child Frienldy: \(breed.childFriendly ?? 0)")
+                    Text("Grooming: \(breed.grooming ?? 0)")
+                    Text("Intelligence: \(breed.intelligence ?? 0)")
+                    Text("Health Issues: \(breed.healthIssues ?? 0)")
+                    Text("Social Needs: \(breed.socialNeeds ?? 0)")
+                    Text("Stranger Friendly: \(breed.strangerFriendly ?? 0)")
+                }
             }
         }
-        .navigationTitle(breedName)
+        .navigationTitle(breed.name ?? "")
+        .navigationBarItems(
+            trailing:
+                Link(destination: URL(string: breed.wikipediaUrl ?? "")!, label: {
+                    HStack {
+                        Text("Wiki")
+                        Image(systemName: "globe")
+                    }
+                })
+        )
         .task {
-            try? await viewModel.loadImages(for: breedId)
+            try? await viewModel.loadImages(for: breed.id ?? "")
         }
-    }
-}
-
-struct DetailCatBreedView_Previews: PreviewProvider {
-    static var previews: some View {
-        DetailCatBreedView(breedId: "abys", breedName: "abbb")
     }
 }

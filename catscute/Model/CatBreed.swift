@@ -23,6 +23,7 @@ struct CatBreed: Mappable, Identifiable {
     var socialNeeds: Int?
     var strangerFriendly: Int?
     var imageUrl: String?
+    var wikipediaUrl: String?
     
     init?(map: Map) {}
     mutating func mapping(map: Map) {
@@ -41,5 +42,6 @@ struct CatBreed: Mappable, Identifiable {
         socialNeeds <- map["social_needs"]
         strangerFriendly <- map["stranger_friendly"]
         imageUrl <- map["image.url"]
+        wikipediaUrl <- map["wikipedia_url"]
     }
 }

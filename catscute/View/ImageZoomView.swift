@@ -50,12 +50,6 @@ struct ImageZoomView: View {
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .center)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-        .navigationTitle("Zoomed Image")
-        .onAppear {
-            UIScrollView.appearance().bounces = false
-        }
-        .onDisappear {
-            UIScrollView.appearance().bounces = true
-        }
+        .navigationTitle("Zoomed Image")        
     }
 }

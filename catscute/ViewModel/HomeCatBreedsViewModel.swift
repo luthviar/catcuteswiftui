@@ -14,8 +14,7 @@ import SwiftUI
     
     func loadBreeds() async throws {
         breeds = try await catService.fetchBreeds()
-            .sorted { ($0.name ?? "") < ($1.name ?? "") }
-            .prefix(10)
+            .sorted { ($0.name ?? "") < ($1.name ?? "") }            
             .sorted { ($0.id ?? "") < ($1.id ?? "") }
     }
 }
